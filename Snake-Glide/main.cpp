@@ -1,40 +1,33 @@
 #include "Game/Game.h"
+#include "Button/Button.h"
+#include "Main Menu/MainMenu.h"
 
 using namespace std;
 
 int main() {
 
-	Game game;
+	//Game game;
 
-	while (game.isRunning()) {
+	//Button start_game("Start Game");
+	//start_game.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+	//start_game.setButtonPosition(sf::Vector2f(355, 200));
+	//start_game.setTextPosition(sf::Vector2f(440, 220));
 
-		game.update();
+	//Button exit("Exit");
+	//exit.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+	//exit.setButtonPosition(sf::Vector2f(355, 400));
+	//exit.setTextPosition(sf::Vector2f(480, 420));
 
-		game.render();
-	}
+	//while (game.isRunning()) {
 
-	cout << "Total Score = " << Snake::score << endl;
+	//	game.update();
 
-	sf::RenderWindow window(sf::VideoMode(1000, 800), "Game", sf::Style::Default);
+	//	game.render();
+	//}
 
-	while (window.isOpen()) {
+	MainMenu menu;
 
-		sf::Event ev;
-
-		while (window.pollEvent(ev)) {
-
-			switch (ev.type)
-			{
-			case sf::Event::Closed:
-
-				window.close();
-				break;
-			}
-		}
-
-		window.clear(sf::Color(0, 31, 63));
-		window.display();
-	}
+	menu.gameLoop();
 
 	return 0;
 }
