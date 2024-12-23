@@ -5,6 +5,7 @@ using namespace std;
 
 class Target {
 
+private:
 	// Target Record
 
 	float target_x, target_y;
@@ -13,9 +14,9 @@ public:
 
 	// Generate Target
 
-	sf::Vector2f targetGeneration(sf::VideoMode video_mode);
+	sf::Vector2f targetGeneration(sf::VideoMode);
 
 	// Is Hit
 
-	bool isTargetHit(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, Snake snake_movement);
+	bool isTargetHit(vector<sf::RectangleShape>&, vector<sf::Vector2f>&, Snake);
 };
