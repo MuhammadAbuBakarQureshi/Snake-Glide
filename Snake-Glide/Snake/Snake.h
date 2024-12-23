@@ -10,7 +10,6 @@ enum Direction
     DOWN
 };
 
-
 using namespace std;
 
 class Snake
@@ -21,8 +20,6 @@ private:
     float snake_speed = 10;
     
 public:
-
-    static int score;
 
     // Movement
 
