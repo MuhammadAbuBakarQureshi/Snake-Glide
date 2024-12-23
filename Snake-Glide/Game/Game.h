@@ -16,9 +16,11 @@ private:
 
 	bool main_menu;
 
+	int score;
+
 	// Snake
 
-	sf::RenderWindow* window;
+	//sf::RenderWindow* window;
 	sf::VideoMode video_mode;
 	sf::Event evnt;
 
@@ -31,47 +33,39 @@ private:
 
 	sf::RectangleShape target;
 	sf::Vector2f target_pos;
-	
+
 	// Target Private Function
 
 	void generateTarget();
 
-	// Private Functions
+	//// Private Functions
 
 	void initSnake();
 	void initVariables();
-	void initWindow();
 
 public:
 
-	Game();
-	~Game();
-	
-	// Accessor
-	
-	const bool isRunning() const;
-	
-	// Snake Data
-
-	void isKilledInGame(bool);
-
+	Game(sf::VideoMode);
+	// 
 	// Game
 
-	void keyboardInput();
+	void keyboardInput(sf::RenderWindow* window);
 
 	// Game Window
 
-	void pollEvent();
+	void pollEvent(sf::RenderWindow* window);
 
 	// Update
 
-	void updateTarget();
-	void updateSnake();
-	void update();
+	void updateTarget(sf::RenderWindow* window);
+	void updateSnake(sf::RenderWindow* window);
+	void update(sf::RenderWindow* window);
 
 	// Render
 
-	void renderTarget();
-	void renderSnake();
-	void render();
+	void renderTarget(sf::RenderWindow* window);
+	void renderSnake(sf::RenderWindow* window);
+	void render(sf::RenderWindow* window);
+
+	void run(sf::RenderWindow*, sf::Event);
 };
