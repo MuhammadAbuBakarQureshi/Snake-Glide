@@ -1,8 +1,8 @@
 #include "Snake.h"
 
-enum Direction dir;
-
 using namespace std;
+
+enum Direction dir;
 
 void addressSwap(vector<sf::Vector2f>& snake_pos) {
 
@@ -12,10 +12,6 @@ void addressSwap(vector<sf::Vector2f>& snake_pos) {
         swap(snake_pos.at(i).y, snake_pos.at(i + 1).y);
     }
 }
-
-// static variable
-
-int Snake::score = 0;
 
 // Movement
 
@@ -139,6 +135,7 @@ bool Snake::isKilledByItself(vector<sf::RectangleShape>& snake, vector<sf::Vecto
 
         if (head_column == snake_pos.at(i).x && head_row == snake_pos.at(i).y) {
 
+            dir = RIGHT;
             return true;
         }
     }
@@ -156,7 +153,8 @@ bool Snake::isKilledByWall(vector<sf::Vector2f> snake_pos, sf::VideoMode video_m
     // Max sides
 
     if (head_x == wall_x || head_y == wall_y) {
-        
+
+        dir = RIGHT;
         return true;
     }
 
@@ -164,6 +162,7 @@ bool Snake::isKilledByWall(vector<sf::Vector2f> snake_pos, sf::VideoMode video_m
 
     if (head_x == 0 || head_y == 0) {
 
+        dir = RIGHT;
         return true;
     }
 
@@ -217,14 +216,4 @@ void Snake::increaseLength(vector<sf::RectangleShape>& snake, vector<sf::Vector2
         snake_pos.push_back(new_box);
         break;
     }
-
-    score++;
-
-    //snake.push_back(254);
-    //snake_x.push_back(x);
-    //snake_y.push_back(y);
-    //int snake_head = snake.size() - 1;
-
-    //dim.setCursorPosition(snake_x.at(snake_head), snake_y.at(snake_head));
-    //cout << snake.at(0);
 }
