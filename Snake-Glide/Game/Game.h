@@ -14,16 +14,9 @@ private:
 
 	int score;
 
-	// Snake
-
 	sf::RenderWindow* window;
 	sf::VideoMode video_mode;
 	sf::Event evnt;
-
-	// For Snake
-
-	vector <sf::RectangleShape> snake;
-	vector <sf::Vector2f> snake_pos;
 
 	// Target
 
@@ -32,7 +25,6 @@ private:
 
 	//// Private Functions
 
-	void initSnake();
 	void initVariables();
 
 public:
@@ -52,13 +44,11 @@ public:
 	// Update
 
 	void updateTarget();
-	void updateSnake();
 	void update();
 
 	// Render
 
 	void renderTarget();
-	void renderSnake();
 	void render();
 
 	void run();
