@@ -15,28 +15,79 @@ void addressSwap(vector<sf::Vector2f>& snake_pos) {
 
 // Movement
 
-void Snake::move(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, sf::VideoMode video_mode) {
+void Snake::initSnake()
+{
+
+    sf::Color clr(0, 191, 255);
+
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+
+    for (int i = 0; i < 4; i++) {
+
+        snake.at(i).setOrigin(5, 5);
+        snake.at(i).setFillColor(clr);
+    }
+
+    // Head with different color
+
+    snake.at(3).setFillColor(sf::Color(255, 165, 0));
+
+    float head = 70;
+    float speed = 10;
+
+    snake.at(0).setPosition(head, 100);
+    snake.at(1).setPosition(head + speed, 100);
+    snake.at(2).setPosition(head + speed + speed, 100);
+    snake.at(3).setPosition(head + speed + speed + speed, 100);
+
+    snake_pos.push_back(snake.at(0).getPosition());
+    snake_pos.push_back(snake.at(1).getPosition());
+    snake_pos.push_back(snake.at(2).getPosition());
+    snake_pos.push_back(snake.at(3).getPosition());
+}
+
+Snake::Snake(sf::RenderWindow& window,sf::VideoMode video_mode)
+{
+    this->video_mode = video_mode;
+
+    this->window = &window;
+
+    initSnake();
+}
+
+void Snake::snakeInput(sf::RenderWindow& window, sf::VideoMode video_mode)
+{
+    this->window = &window;
+    this->video_mode = video_mode;
+
+    initSnake();
+}
+
+void Snake::move() {
 
     switch (dir)
     {
     case RIGHT:
 
-        moveRight(snake, snake_pos, video_mode);
+        moveRight();
         break;
     
     case LEFT:
 
-        moveLeft(snake, snake_pos, video_mode);
+        moveLeft();
         break;
     
     case UP:
 
-        moveUp(snake, snake_pos, video_mode);
+        moveUp();
         break;
 
     case DOWN:
 
-        moveDown(snake, snake_pos, video_mode);
+        moveDown();
         break;
 
     default:
@@ -44,19 +95,7 @@ void Snake::move(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_
     }
 }
 
-void updateSnake(sf::Vector2f head, vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos) {
-
-    addressSwap(snake_pos);
-
-    snake_pos.at(snake_pos.size() - 1) = head;
-
-    for (int i = snake.size() - 1; i >= 0; i--) {
-
-        snake.at(i).setPosition(snake_pos.at(i));
-    }
-}
-
-void Snake::moveRight(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, sf::VideoMode video_mode)
+void Snake::moveRight()
 {
     if (dir == LEFT) {return;}
 
@@ -68,11 +107,11 @@ void Snake::moveRight(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& s
 
     if (head.x <= video_mode.width) {
 
-        updateSnake(head, snake, snake_pos);
+        update(head);
     }
 }
 
-void Snake::moveLeft(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, sf::VideoMode video_mode)
+void Snake::moveLeft()
 {
     if (dir == RIGHT) { return; }
 
@@ -84,11 +123,11 @@ void Snake::moveLeft(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& sn
 
     if (head.x >= 0) {
 
-        updateSnake(head, snake, snake_pos);
+        update(head);
     }
 }
 
-void Snake::moveUp(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, sf::VideoMode video_mode)
+void Snake::moveUp()
 {
     if (dir == DOWN) { return; }
 
@@ -100,11 +139,11 @@ void Snake::moveUp(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snak
 
     if (head.y >= 0) {
 
-        updateSnake(head, snake, snake_pos);
+        update(head);
     }
 }
 
-void Snake::moveDown(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos, sf::VideoMode video_mode)
+void Snake::moveDown()
 {
     if (dir == UP) { return; }
 
@@ -116,7 +155,7 @@ void Snake::moveDown(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& sn
 
     if (head.y <= video_mode.height) {
 
-        updateSnake(head, snake, snake_pos);
+        update(head);
     }
 }
 
@@ -124,7 +163,27 @@ void Snake::moveDown(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& sn
 
 // Is Killed
 
-bool Snake::isKilledByItself(vector<sf::RectangleShape>& snake, vector<sf::Vector2f>& snake_pos) {
+void Snake::update(sf::Vector2f head)
+{
+    addressSwap(snake_pos);
+
+    snake_pos.at(snake_pos.size() - 1) = head;
+
+    for (int i = snake.size() - 1; i >= 0; i--) {
+
+        snake.at(i).setPosition(snake_pos.at(i));
+    }
+}
+
+void Snake::render()
+{
+    for (auto& s : snake) {
+
+        window->draw(s);
+    }
+}
+
+bool Snake::isKilledByItself() {
 
     // This code executed when snake hit itself
 
@@ -143,7 +202,7 @@ bool Snake::isKilledByItself(vector<sf::RectangleShape>& snake, vector<sf::Vecto
     return false;
 }
 
-bool Snake::isKilledByWall(vector<sf::Vector2f> snake_pos, sf::VideoMode video_mode){
+bool Snake::isKilledByWall(){
 
     int wall_x = video_mode.width;
     int wall_y = video_mode.height;
