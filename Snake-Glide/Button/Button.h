@@ -22,6 +22,7 @@ private:
 public:
 
 	Button(string);
+	Button() {};
 	~Button();
 
 	// Initialization
@@ -29,6 +30,7 @@ public:
 	void setColors(sf::Color, sf::Color);
 	void setButtonPosition(sf::Vector2f);
 	void setTextPosition(sf::Vector2f);
+	void setText(string);
 
 	// Functions on Button
 
