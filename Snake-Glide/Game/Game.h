@@ -12,15 +12,11 @@ class Game {
 
 private:
 
-	// For main menu
-
-	bool main_menu;
-
 	int score;
 
 	// Snake
 
-	//sf::RenderWindow* window;
+	sf::RenderWindow* window;
 	sf::VideoMode video_mode;
 	sf::Event evnt;
 
@@ -29,14 +25,10 @@ private:
 	vector <sf::RectangleShape> snake;
 	vector <sf::Vector2f> snake_pos;
 
-	// Taget
+	// Target
 
 	sf::RectangleShape target;
 	sf::Vector2f target_pos;
-
-	// Target Private Function
-
-	void generateTarget();
 
 	//// Private Functions
 
@@ -45,27 +37,29 @@ private:
 
 public:
 
-	Game(sf::VideoMode);
-	// 
+	Game(sf::RenderWindow*, sf::Event, sf::VideoMode);
+	
+	int getScore();
+
 	// Game
 
-	void keyboardInput(sf::RenderWindow* window);
+	void keyboardInput();
 
 	// Game Window
 
-	void pollEvent(sf::RenderWindow* window);
+	void pollEvent();
 
 	// Update
 
-	void updateTarget(sf::RenderWindow* window);
-	void updateSnake(sf::RenderWindow* window);
-	void update(sf::RenderWindow* window);
+	void updateTarget();
+	void updateSnake();
+	void update();
 
 	// Render
 
-	void renderTarget(sf::RenderWindow* window);
-	void renderSnake(sf::RenderWindow* window);
-	void render(sf::RenderWindow* window);
+	void renderTarget();
+	void renderSnake();
+	void render();
 
-	void run(sf::RenderWindow*, sf::Event);
+	void run();
 };
