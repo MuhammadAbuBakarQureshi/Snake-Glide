@@ -1,30 +1,11 @@
 #include "Game.h"
-//
-//#include "../Snake/Snake.h"
+
 #include "../Target/Target.h"
-//
-//using namespace std;
 
 Target target_obj;
 
-void Game::generateTarget()
-{
-    target_pos = target_obj.targetGeneration(video_mode);
-
-    target.setPosition(target_pos);
-
-    score++;
-}
-
 void Game::initVariables()
 {
-    //this->window = nullptr;
-
-    // Init Window size
-
-    //this->video_mode.height = 800;
-    //this->video_mode.width = 1000;
-
     // Creating target
 
     target.setSize(sf::Vector2f(10.f, 10.f));
@@ -33,10 +14,8 @@ void Game::initVariables()
 
     // updating target
 
-    generateTarget();
-
-    main_menu = false;
-
+    updateTarget();
+        
     score = 0;
 }
 
@@ -76,13 +55,19 @@ void Game::initSnake()
 
 //// Constructor
 
-Game::Game(sf::VideoMode video_mode)
+Game::Game(sf::RenderWindow* window, sf::Event evnt, sf::VideoMode video_mode)
 {
+    this->window = window;
     this->video_mode = video_mode;
+    this->evnt = evnt;
 
+        
     initVariables();
-    //initWindow();
     initSnake();
+}
+int Game::getScore()
+{
+    return score;
 }
 //
 //// Destructor
@@ -91,7 +76,7 @@ Game::Game(sf::VideoMode video_mode)
 
 // Game
 
-void Game::keyboardInput(sf::RenderWindow* window)
+void Game::keyboardInput()
 {
 
     Snake snake_movement;
@@ -122,7 +107,7 @@ void Game::keyboardInput(sf::RenderWindow* window)
 
     // checks is target is hit
 
-    if (target_obj.isTargetHit(snake, snake_pos, snake_movement) == true) { generateTarget(); }
+    if (target_obj.isTargetHit(snake, snake_pos, snake_movement) == true) { updateTarget(); }
 
 
     // checks if it is hit by wall or itself
@@ -134,7 +119,7 @@ void Game::keyboardInput(sf::RenderWindow* window)
 
 // Poll Event
 
-void Game::pollEvent(sf::RenderWindow* window)
+void Game::pollEvent()
 {
     while (window->pollEvent(evnt)) {
 
@@ -160,35 +145,38 @@ void Game::pollEvent(sf::RenderWindow* window)
 
 // Update
 
-void Game::updateTarget(sf::RenderWindow* window)
+void Game::updateTarget()
 {
 
+    target_pos = target_obj.targetGeneration(video_mode);
+
+    target.setPosition(target_pos);
+
+    score++;
 }
 
-void Game::updateSnake(sf::RenderWindow* window){
+void Game::updateSnake(){
 
-    this->keyboardInput(window);
+    this->keyboardInput();
 }
 
-void Game::update(sf::RenderWindow* window)
+void Game::update()
 {
 
-    this->pollEvent(window);
+    this->pollEvent();
 
-    updateSnake(window);
-
-    updateTarget(window);
+    updateSnake();
 }
 
 // Render
 
-void Game::renderTarget(sf::RenderWindow* window)
+void Game::renderTarget()
 {
 
     window->draw(target);
 }
 
-void Game::renderSnake(sf::RenderWindow* window) {
+void Game::renderSnake() {
 
     for (auto& s : snake) {
 
@@ -196,33 +184,31 @@ void Game::renderSnake(sf::RenderWindow* window) {
     }
 }
 
-void Game::render(sf::RenderWindow* window)
+void Game::render()
 {
 
     window->clear(sf::Color(0, 31, 63));
 
-    renderSnake(window);
+    renderSnake();
     
-    renderTarget(window);
+    renderTarget();
 
     window->display();
 }
 
-void Game::run(sf::RenderWindow* window, sf::Event evnt)
+void Game::run()
 {
-    this->evnt = evnt;
-
     Snake snake_movement;
 
     while (!snake_movement.isKilledByWall(snake_pos, video_mode) && !snake_movement.isKilledByItself(snake, snake_pos)) {
 
         // Update
 
-        update(window);
+        update();
 
         // Render
 
-        render(window);
+        render();
     }
 
     cout << score << endl;
