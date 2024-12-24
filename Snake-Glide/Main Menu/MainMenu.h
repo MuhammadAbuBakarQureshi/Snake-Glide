@@ -7,26 +7,32 @@ class MainMenu
 {
 private:
 
-	bool main_menu;
+	// Window
 
 	sf::RenderWindow* window;
 	sf::VideoMode video_mode;
 	sf::Event evnt;
 
+	// Buttons
+	// 
+	// Initialization
 
 	void initVariables();
 	void initWindow();
+
+	// After Kill
+
+	void scoreWindow(Game);
 
 public:
 
 	MainMenu();
 	~MainMenu();
 
-	void main_menu_window(Button&, Button&);
-
 	void gameLoop();
 
-
+	void updateScore();
+	void updateTitle();
 	void update();
 
 	// Render
