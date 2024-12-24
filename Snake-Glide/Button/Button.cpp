@@ -19,7 +19,7 @@ void Button::initVariables(string text)
 
 	// Set Font
 
-	font.loadFromFile("arial.ttf");
+	font.loadFromFile("Fonts/Buttons/tipo.ttf");
 
 	this->text.setFont(font);
 }
@@ -52,12 +52,19 @@ void Button::setTextPosition(sf::Vector2f text_pos)
 	this->text.setPosition(text_pos);
 }
 
+void Button::setText(string text)
+{
+	this->text.setString(text);
+}
+
 
 bool Button::isMouseOnButton(sf::RenderWindow& window)
 {
 	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
 
-	if (mouse_position.x > button_position.x && mouse_position.y > button_position.y && mouse_position.x < button_position.x + button_size.x && mouse_position.y < button_position.y + button_size.y) {
+	if (mouse_position.x > button_position.x && mouse_position.y > button_position.y
+		&& mouse_position.x < button_position.x + button_size.x 
+		&& mouse_position.y < button_position.y + button_size.y) {
 
 		return true;
 	}
