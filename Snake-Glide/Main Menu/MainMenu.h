@@ -24,6 +24,8 @@ private:
 
 	void scoreWindow(Game);
 
+	void highScoreWindow();
+
 public:
 
 	MainMenu();
