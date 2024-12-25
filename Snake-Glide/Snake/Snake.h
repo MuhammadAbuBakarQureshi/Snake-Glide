@@ -19,43 +19,22 @@ private:
 
     float snake_speed = 10;
     
-    sf::RenderWindow* window;
-    sf::VideoMode video_mode;
-
-    // Snake
-
-    vector <sf::RectangleShape> snake;
-    vector <sf::Vector2f> snake_pos;
-
-    // Snake Function
-
-    void initSnake();
-
 public:
-
-    Snake(sf::RenderWindow&, sf::VideoMode);
-    Snake() {};
-
-    void snakeInput(sf::RenderWindow&, sf::VideoMode);
 
     // Movement
 
-    void move();
+    void move(vector<sf::RectangleShape>&, vector<sf::Vector2f>&, sf::VideoMode);
 
-    void moveRight();
-    void moveLeft();
-    void moveUp();
-    void moveDown();
+    void moveRight(vector<sf::RectangleShape>&, vector<sf::Vector2f>& , sf::VideoMode);
+    void moveLeft(vector<sf::RectangleShape>&, vector<sf::Vector2f>&, sf::VideoMode);
+    void moveUp(vector<sf::RectangleShape>&, vector<sf::Vector2f>&, sf::VideoMode);
+    void moveDown(vector<sf::RectangleShape>&, vector<sf::Vector2f>&, sf::VideoMode);
     
-    // Update
-
-    void update(sf::Vector2f);
-    void render();
 
     // Is Killed
     
-    bool isKilledByItself();
-    bool isKilledByWall();
+    bool isKilledByItself(vector<sf::RectangleShape>&, vector<sf::Vector2f>&);
+    bool isKilledByWall(vector<sf::Vector2f>, sf::VideoMode);
     
     // Increase Length
     
