@@ -36,6 +36,7 @@ Button::~Button()
 void Button::setColors(sf::Color button_color, sf::Color text_color)
 {
 	this->button_color = button_color;
+	this->text_color = text_color;
 	this->button.setFillColor(this->button_color);
 	this->text.setFillColor(text_color);
 }
@@ -78,7 +79,8 @@ bool Button::isClick(sf::RenderWindow& window, sf::Event evnt)
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 
-			this->button.setFillColor(sf::Color(40, 80, 140));
+			this->button.setFillColor(sf::Color(0, 85, 170));
+			this->text.setFillColor(sf::Color(204, 204, 0));
 
 			return true;
 		}
@@ -93,8 +95,8 @@ bool Button::isHover(sf::RenderWindow& window, sf::Event evnt)
 
 	if (isMouseOnButton(window)){
 	
-		this->button.setFillColor(sf::Color(60, 100, 160));
-		
+		this->button.setFillColor(sf::Color(0, 170, 255));
+		this->text.setFillColor(sf::Color(255, 255, 128));
 		return true;
 
 		//cout << "--- Mouse X = " << mouse_position.x << " Y = " << mouse_position.y << endl;
@@ -106,6 +108,7 @@ bool Button::isHover(sf::RenderWindow& window, sf::Event evnt)
 
 
 		this->button.setFillColor(button_color);
+		this->text.setFillColor(text_color);
 
 		return false;
 	}
