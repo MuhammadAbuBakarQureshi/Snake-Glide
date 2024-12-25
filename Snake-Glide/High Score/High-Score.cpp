@@ -3,7 +3,7 @@
 
 using namespace std;
 
-string file_address = "High Score/High-Score.csv";
+string file_address = "High Score/High-Score.txt";
 
 void writeFile(int score)
 {
