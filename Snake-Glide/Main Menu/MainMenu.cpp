@@ -100,7 +100,7 @@ void MainMenu::gameLoop()
 
             game.run();
 
-            scoreWindow(game);
+            //scoreWindow(game);
         }
 
         if(exit.isClick(*window, evnt)){
