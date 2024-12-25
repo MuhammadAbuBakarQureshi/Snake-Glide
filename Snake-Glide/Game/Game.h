@@ -18,6 +18,10 @@ private:
 	sf::VideoMode video_mode;
 	sf::Event evnt;
 
+	//
+
+	Snake* snake_movement;
+	
 	// Target
 
 	sf::RectangleShape target;
