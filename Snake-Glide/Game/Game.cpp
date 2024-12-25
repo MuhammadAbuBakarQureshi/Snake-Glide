@@ -3,13 +3,14 @@
 #include "../Target/Target.h"
 
 Target target_obj;
-Snake snake_movement;
 
 void Game::initVariables()
 {
     // Snake 
 
-    snake_movement.snakeInput(*window, video_mode);
+    snake_movement = new Snake();
+
+    snake_movement->snakeInput(*window, video_mode);
 
     // Creating target
 
@@ -18,6 +19,7 @@ void Game::initVariables()
     target.setFillColor(sf::Color(255, 0, 0));
 
     // updating target
+
 
     updateTarget();
         
@@ -50,26 +52,26 @@ int Game::getScore()
 void Game::keyboardInput()
 {
 
-    snake_movement.move();
+    snake_movement->move();
 
    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
 
-        snake_movement.moveLeft();
+        snake_movement->moveLeft();
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 
-        snake_movement.moveUp();
+        snake_movement->moveUp();
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
 
-        snake_movement.moveDown();
+        snake_movement->moveDown();
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 
-        snake_movement.moveRight();
+        snake_movement->moveRight();
     }
 
     this_thread::sleep_for(chrono::microseconds(50000));
@@ -145,7 +147,7 @@ void Game::render()
 
     window->clear(sf::Color(0, 31, 63));
 
-    snake_movement.render();
+    snake_movement->render();
 
     renderTarget();
 
@@ -155,12 +157,12 @@ void Game::render()
 void Game::run()
 {
    
-    while (!snake_movement.isKilledByWall() && !snake_movement.isKilledByItself()) {
+    while (!snake_movement->isKilledByWall() && !snake_movement->isKilledByItself()) {
 
         // Update
 
         update();
-
+        
         // Render
 
         render();
@@ -168,4 +170,5 @@ void Game::run()
 
     cout << score << endl;
     
+    delete snake_movement;
 }
