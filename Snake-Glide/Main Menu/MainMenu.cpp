@@ -16,7 +16,10 @@ void MainMenu::initVariables()
 
 void MainMenu::initWindow()
 {
-    this->window = new sf::RenderWindow(this->video_mode, "Snake Game", sf::Style::Titlebar);
+    this->window = new sf::RenderWindow(this->video_mode, "Snake Glide", sf::Style::Close);
+    this->window->setFramerateLimit(30);
+    this->window->setVerticalSyncEnabled(true);
+
 }
 
 void MainMenu::scoreWindow(Game game)
@@ -72,7 +75,7 @@ void MainMenu::scoreWindow(Game game)
 void MainMenu::highScoreWindow()
 {
     Button back("Back");
-    back.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    back.setColors(sf::Color(10, 10, 50), sf::Color(192, 192, 192));
     back.setButtonPosition(sf::Vector2f(370, 340));
     back.setTextPosition(sf::Vector2f(440, 365));
 
@@ -129,22 +132,36 @@ MainMenu::~MainMenu()
 
 void MainMenu::gameLoop()
 {
+    sf::Color button_color = sf::Color(10, 10, 50);
+    sf::Color text_color = sf::Color(192, 192, 192);
+
     Button start_game("Start Game");
-    start_game.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    start_game.setColors(sf::Color(button_color), sf::Color(text_color));
     start_game.setButtonPosition(sf::Vector2f(370, 230));
     start_game.setTextPosition(sf::Vector2f(430, 255));
 
     Button high_score("High Scores");
-    high_score.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    high_score.setColors(sf::Color(button_color), sf::Color(text_color));
     high_score.setButtonPosition(sf::Vector2f(370, 400));
     high_score.setTextPosition(sf::Vector2f(450, 425));
 
     Button exit("Exit");
-    exit.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    exit.setColors(sf::Color(button_color), sf::Color(text_color));
     exit.setButtonPosition(sf::Vector2f(370, 570));
     exit.setTextPosition(sf::Vector2f(490 , 595));
 
     while (this->window->isOpen()) {
+
+        while (this->window->pollEvent(evnt)) {
+
+            switch (evnt.type) {
+
+            case sf::Event::Closed:
+
+                this->window->close();
+                break;
+            }
+        }
 
         if (start_game.isClick(*window, evnt)) {
 
