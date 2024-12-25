@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "../High Score/High-Score.h"
 
 #include <sstream>
 
@@ -20,6 +21,9 @@ void MainMenu::initWindow()
 
 void MainMenu::scoreWindow(Game game)
 {
+    int score = game.getScore();
+
+    setHighScore(score);
 
     Button main_menu("Main Menu");
     main_menu.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
@@ -45,8 +49,6 @@ void MainMenu::scoreWindow(Game game)
 
         text.setFont(font);
 
-        int score = game.getScore();
-
         stringstream s;
 
         s << score;
@@ -64,7 +66,52 @@ void MainMenu::scoreWindow(Game game)
         main_menu.render(*window);
 
         this->window->display();
+    }
+}
 
+void MainMenu::highScoreWindow()
+{
+    Button back("Back");
+    back.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    back.setButtonPosition(sf::Vector2f(370, 340));
+    back.setTextPosition(sf::Vector2f(440, 365));
+
+    while (true) {
+
+        if (back.isClick(*window, evnt)) {
+
+            break;
+        }
+
+        this->window->clear(sf::Color(0, 31, 63));
+
+        sf::Text text;
+
+        text.move(460, 260);
+
+        sf::Font font;
+
+        font.loadFromFile("Fonts/Score/VT323-Regular.ttf");
+
+        text.setFont(font);
+
+        stringstream s;
+
+        s << getHighScore();
+
+        text.setString(s.str().c_str());
+
+        text.setCharacterSize(40);
+
+        text.setFillColor(sf::Color(255, 255, 0));
+
+        text.setStyle(sf::Text::Bold);
+
+        window->draw(text);
+
+        back.render(*window);
+
+        this->window->display();
     }
 }
 
@@ -87,10 +134,15 @@ void MainMenu::gameLoop()
     start_game.setButtonPosition(sf::Vector2f(370, 230));
     start_game.setTextPosition(sf::Vector2f(430, 255));
 
+    Button high_score("High Scores");
+    high_score.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
+    high_score.setButtonPosition(sf::Vector2f(370, 400));
+    high_score.setTextPosition(sf::Vector2f(450, 425));
+
     Button exit("Exit");
     exit.setColors(sf::Color(20, 20, 60), sf::Color(128, 180, 255));
-    exit.setButtonPosition(sf::Vector2f(370, 400));
-    exit.setTextPosition(sf::Vector2f(490, 425));
+    exit.setButtonPosition(sf::Vector2f(370, 570));
+    exit.setTextPosition(sf::Vector2f(490 , 595));
 
     while (this->window->isOpen()) {
 
@@ -100,7 +152,12 @@ void MainMenu::gameLoop()
 
             game.run();
 
-            //scoreWindow(game);
+            this->scoreWindow(game);
+        }
+
+        if (high_score.isClick(*window, evnt)) {
+
+            this->highScoreWindow();
         }
 
         if(exit.isClick(*window, evnt)){
@@ -111,6 +168,7 @@ void MainMenu::gameLoop()
         this->window->clear(sf::Color(0, 31, 63));
         updateTitle();
         start_game.render(*window);
+        high_score.render(*window);
         exit.render(*window);
         this->window->display();
     }
