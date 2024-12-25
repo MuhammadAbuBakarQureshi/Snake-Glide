@@ -6,12 +6,6 @@ Target target_obj;
 
 void Game::initVariables()
 {
-    // Snake 
-
-    snake_movement = new Snake();
-
-    snake_movement->snakeInput(*window, video_mode);
-
     // Creating target
 
     target.setSize(sf::Vector2f(10.f, 10.f));
@@ -20,10 +14,43 @@ void Game::initVariables()
 
     // updating target
 
-
     updateTarget();
         
     score = 0;
+}
+
+void Game::initSnake()
+{
+
+    sf::Color clr(0, 191, 255);
+
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+    snake.push_back(sf::RectangleShape(sf::Vector2f(10.f, 10.f)));
+
+    for (int i = 0; i < 4; i++) {
+
+        snake.at(i).setOrigin(5, 5);
+        snake.at(i).setFillColor(clr);
+    }
+
+    // Head with different color
+
+    snake.at(3).setFillColor(sf::Color(255, 165, 0));
+
+    float head = 70;
+    float speed = 10;
+
+    snake.at(0).setPosition(head, 100);
+    snake.at(1).setPosition(head + speed, 100);
+    snake.at(2).setPosition(head + speed + speed, 100);
+    snake.at(3).setPosition(head + speed + speed + speed, 100);
+
+    snake_pos.push_back(snake.at(0).getPosition());
+    snake_pos.push_back(snake.at(1).getPosition());
+    snake_pos.push_back(snake.at(2).getPosition());
+    snake_pos.push_back(snake.at(3).getPosition());
 }
 
 //// Constructor
@@ -34,9 +61,9 @@ Game::Game(sf::RenderWindow* window, sf::Event evnt, sf::VideoMode video_mode)
     this->video_mode = video_mode;
     this->evnt = evnt;
 
-   
+        
     initVariables();
-    //initSnake();
+    initSnake();
 }
 int Game::getScore()
 {
@@ -52,33 +79,35 @@ int Game::getScore()
 void Game::keyboardInput()
 {
 
-    snake_movement->move();
+    Snake snake_movement;
+
+    snake_movement.move(snake, snake_pos, video_mode);
 
    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
 
-        snake_movement->moveLeft();
+        snake_movement.moveLeft(snake, snake_pos, video_mode);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 
-        snake_movement->moveUp();
+        snake_movement.moveUp(snake, snake_pos, video_mode);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
 
-        snake_movement->moveDown();
+        snake_movement.moveDown(snake, snake_pos, video_mode);
     }
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 
-        snake_movement->moveRight();
+        snake_movement.moveRight(snake, snake_pos, video_mode);
     }
 
     this_thread::sleep_for(chrono::microseconds(50000));
 
     // checks is target is hit
 
-   // if (target_obj.isTargetHit(snake, snake_pos, snake_movement) == true) { updateTarget(); }
+    if (target_obj.isTargetHit(snake, snake_pos, snake_movement) == true) { updateTarget(); }
 
 
     // checks if it is hit by wall or itself
@@ -126,12 +155,17 @@ void Game::updateTarget()
     score++;
 }
 
+void Game::updateSnake(){
+
+    this->keyboardInput();
+}
+
 void Game::update()
 {
 
     this->pollEvent();
 
-    this->keyboardInput();
+    updateSnake();
 }
 
 // Render
@@ -142,13 +176,21 @@ void Game::renderTarget()
     window->draw(target);
 }
 
+void Game::renderSnake() {
+
+    for (auto& s : snake) {
+
+        window->draw(s);
+    }
+}
+
 void Game::render()
 {
 
     window->clear(sf::Color(0, 31, 63));
 
-    snake_movement->render();
-
+    renderSnake();
+    
     renderTarget();
 
     window->display();
@@ -156,13 +198,14 @@ void Game::render()
 
 void Game::run()
 {
-   
-    while (!snake_movement->isKilledByWall() && !snake_movement->isKilledByItself()) {
+    Snake snake_movement;
+
+    while (!snake_movement.isKilledByWall(snake_pos, video_mode) && !snake_movement.isKilledByItself(snake, snake_pos)) {
 
         // Update
 
         update();
-        
+
         // Render
 
         render();
@@ -170,5 +213,4 @@ void Game::run()
 
     cout << score << endl;
     
-    delete snake_movement;
 }
