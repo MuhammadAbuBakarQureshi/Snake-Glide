@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Button\Button.cpp" />
     <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="High Score\High-Score.cpp" />
     <ClCompile Include="Main Menu\MainMenu.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Snake\Snake.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="Button\Button.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="High Score\High-Score.h" />
     <ClInclude Include="Main Menu\MainMenu.h" />
     <ClInclude Include="Snake\Snake.h" />
     <ClInclude Include="Target\Target.h" />
