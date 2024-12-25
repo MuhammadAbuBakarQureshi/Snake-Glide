@@ -11,6 +11,7 @@ class Button
 private:
 	
 	sf::Text text;
+	sf::Color text_color;
 	sf::Font font;
 	sf::RectangleShape button;
 	sf::Color button_color;
