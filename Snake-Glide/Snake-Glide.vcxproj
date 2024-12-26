@@ -146,8 +146,15 @@
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="High Score\High-Score.h" />
     <ClInclude Include="Main Menu\MainMenu.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Snake\Snake.h" />
     <ClInclude Include="Target\Target.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Snake-Glide.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Muhammad Abu Bakar\Downloads\favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
