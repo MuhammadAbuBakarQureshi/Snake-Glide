@@ -219,11 +219,3 @@ void MainMenu::updateTitle()
 
     window->draw(text);
 }
-
-void MainMenu::update()
-{
-}
-
-void MainMenu::render()
-{
-}
