@@ -35,10 +35,5 @@ public:
 
 	void updateScore();
 	void updateTitle();
-	void update();
-
-	// Render
-
-	void render();
 };
 
